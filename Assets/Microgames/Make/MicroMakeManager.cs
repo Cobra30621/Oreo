@@ -30,11 +30,13 @@ public class MicroMakeManager : MonoBehaviour
     public bool cleared; // a microgame is considered cleared if cleared = true
     public bool timeOver; // once set to true, the microgame will exit
     public float nextOreoWait = 0.5f;
+    public int currentOreo;
 
     public string question_info;
     public Text lab_question;
     public int score; 
     public Text lab_score;
+    public Text lab_time;
 
     public QuestionData questionData;
     public List<Question> questions;
@@ -48,7 +50,7 @@ public class MicroMakeManager : MonoBehaviour
     void Start()
     {
         bgm = GetComponent<BGMManager>();
-        timer = start_time;
+        
         Game();
     }
 
@@ -61,26 +63,31 @@ public class MicroMakeManager : MonoBehaviour
     void Countdown(){
         if(timeOver){return;}
 
-        timer -= Time.deltaTime;
-        if(timer < 0){
-            timeOver = true;
-        }
+        timer += Time.deltaTime;
+        // if(timer < 0){
+        //     timeOver = true;
+        // }
+        lab_time.text = "Time : " + Mathf.Ceil(timer);
     }
 
     [ContextMenu("Game Start")]
     public void Game(){
+        
         for (int i = 0; i < parts.Length; i++)
         {
             parts[i].id = i;
         }
         
         questions = questionData.questions;
+        // timer = start_time;
+        timer ++;
         score = 0;
         SetScoreUI(score);
+        currentOreo = 0;
 
         StartCoroutine(NextOreo(0));
 
-        bgm.PlayBGM(0);
+        // bgm.PlayBGM(0);
         StartCoroutine(GameCoroutine());
         StartCoroutine(DragCoroutine());
     }
@@ -88,7 +95,8 @@ public class MicroMakeManager : MonoBehaviour
     IEnumerator NextOreo(float wait){
         yield return new WaitForSeconds(wait);
 
-        int questionId = Random.Range(0, questions.Count);
+        // int questionId = Random.Range(0, questions.Count);
+        int questionId = currentOreo;
         // 刪除場上的Oreo
         foreach (Transform child in anchor.transform) {
             GameObject.Destroy(child.gameObject);
@@ -201,6 +209,7 @@ public class MicroMakeManager : MonoBehaviour
                             // fubukiAnimator.SetTrigger("win");
                             score += 1; // 得分
                             SetScoreUI(score);
+                            currentOreo ++;
                             yield return NextOreo(nextOreoWait); // 下一個Oreo
                         } else
                         {
