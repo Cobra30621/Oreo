@@ -915,7 +915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 334.31, y: 255.01}
+  m_AnchoredPosition: {x: 334.31, y: 313}
   m_SizeDelta: {x: 274.85114, y: 67.9921}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1486036581
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.39399385, b: 1, a: 1}
+  m_Color: {r: 0.96015084, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1054,7 +1054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1983995721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   sfxData:
   - audioClip:
     - {fileID: 8300000, guid: a361491d4f4977a428e9693c0c1828a6, type: 3}
-    volume: 0.75
+    volume: 0.33
     playOnEnable: 0
   - audioClip:
     - {fileID: 8300000, guid: c8f7c86935f077b4784c7c5613077ff1, type: 3}
@@ -1852,7 +1852,7 @@ MonoBehaviour:
     playOnEnable: 0
   - audioClip:
     - {fileID: 8300000, guid: 451cc2d9d851e7444b2c8848ac190edb, type: 3}
-    volume: 0.75
+    volume: 0.2
     playOnEnable: 0
   - audioClip:
     - {fileID: 8300000, guid: b7a20e927f0ecde45b39324602fda86c, type: 3}
@@ -2220,7 +2220,8 @@ MonoBehaviour:
   timer: 0
   cleared: 0
   timeOver: 0
-  nextOreoWait: 0.8
+  nextOreoWait: 1.5
+  currentOreo: 0
   question_info: 
   lab_question: {fileID: 57672764}
   score: 0
@@ -2229,6 +2230,7 @@ MonoBehaviour:
   questionData: {fileID: 11400000, guid: 39b4416ab2a672743842db010ba3a688, type: 2}
   questions: []
   currentQuestion:
+    audioClip: {fileID: 0}
     oreos: 
 --- !u!4 &8068230978029639502
 Transform:

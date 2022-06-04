@@ -9,6 +9,7 @@ public enum OREO{
 
 [System.Serializable]
 public class Question{
+    public AudioClip audioClip;
     public List<OREO> oreos;
 }
 

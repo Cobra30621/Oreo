@@ -23,6 +23,13 @@ public class SFXManager : MonoBehaviour
     }
 
     // play SFX at specified index
+    public void PlaySFX(AudioClip clip)
+    {
+        if(clip == null){return;}   
+        audioSource.PlayOneShot(clip, 1);
+    }
+
+    // play SFX at specified index
     public void PlaySFX(int index)
     {
         if (index < 0 || index >= sfxData.Length) return;

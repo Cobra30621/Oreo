@@ -80,7 +80,7 @@ public class MicroMakeManager : MonoBehaviour
         
         questions = questionData.questions;
         // timer = start_time;
-        timer ++;
+        timer = 0;
         score = 0;
         SetScoreUI(score);
         currentOreo = 0;
@@ -108,6 +108,8 @@ public class MicroMakeManager : MonoBehaviour
         guideCombo = new List<int>();
         combo = new List<int>();
 
+        
+
         height = 0;
         question_info = "";
         for (int i = 0; i < currentQuestion.oreos.Count; i++)
@@ -125,7 +127,7 @@ public class MicroMakeManager : MonoBehaviour
 
     IEnumerator GameCoroutine()
     {
-        while (timer > 0)
+        while (true)
         {
             if (dragging)
             {
@@ -143,7 +145,7 @@ public class MicroMakeManager : MonoBehaviour
 
     IEnumerator DragCoroutine()
     {
-        while (timer > 0 && !cleared)
+        while ( !cleared)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -210,6 +212,7 @@ public class MicroMakeManager : MonoBehaviour
                             score += 1; // 得分
                             SetScoreUI(score);
                             currentOreo ++;
+                            sfx.PlaySFX(currentQuestion.audioClip);
                             yield return NextOreo(nextOreoWait); // 下一個Oreo
                         } else
                         {
@@ -236,7 +239,7 @@ public class MicroMakeManager : MonoBehaviour
     }
 
     void SetScoreUI(int score){
-        lab_score.text = "Score : " + score;
+        // lab_score.text = "Score : " + score;
     }
 
     public void AddGuidePart(OREO oreo)
