@@ -10,6 +10,7 @@ public class MicroMakeManager : MonoBehaviour
     public SFXManager sfx;
     public Animator fubukiAnimator;
     public Transform guideAnchor, anchor;
+    public GameObject anchorPlaceGO;
     public MicroMakePart[] parts;
     [Range(3, 10)]
     public int numberOfParts = 5, guideBaseOrder = -90, targetBaseOrder = -30, dragOrder = -10;
@@ -28,6 +29,7 @@ public class MicroMakeManager : MonoBehaviour
     public float timer; 
     public bool cleared; // a microgame is considered cleared if cleared = true
     public bool timeOver; // once set to true, the microgame will exit
+    public float nextOreoWait = 0.5f;
 
     public string question_info;
     public Text lab_question;
@@ -37,6 +39,8 @@ public class MicroMakeManager : MonoBehaviour
     public QuestionData questionData;
     public List<Question> questions;
     public Question currentQuestion;
+
+    
     
 
 
@@ -74,20 +78,22 @@ public class MicroMakeManager : MonoBehaviour
         score = 0;
         SetScoreUI(score);
 
-        NextOreo();
+        StartCoroutine(NextOreo(0));
 
         bgm.PlayBGM(0);
         StartCoroutine(GameCoroutine());
         StartCoroutine(DragCoroutine());
     }
 
-    public void NextOreo(){
+    IEnumerator NextOreo(float wait){
+        yield return new WaitForSeconds(wait);
 
         int questionId = Random.Range(0, questions.Count);
         // 刪除場上的Oreo
         foreach (Transform child in anchor.transform) {
             GameObject.Destroy(child.gameObject);
         }
+        anchorPlaceGO.SetActive(true);
 
         currentQuestion = questionData.questions[questionId];
 
@@ -179,6 +185,7 @@ public class MicroMakeManager : MonoBehaviour
                 }
                 if (anchorInContact)
                 {
+                    anchorPlaceGO.SetActive(false); // 將提示關掉
                     partInHand.transform.SetParent(anchor);
                     partInHand.transform.localPosition = new Vector2(0, height);
                     height += partInHand.height;
@@ -194,7 +201,7 @@ public class MicroMakeManager : MonoBehaviour
                             // fubukiAnimator.SetTrigger("win");
                             score += 1; // 得分
                             SetScoreUI(score);
-                            NextOreo(); // 下一個Oreo
+                            yield return NextOreo(nextOreoWait); // 下一個Oreo
                         } else
                         {
                             sfx.PlaySFX(2);
@@ -204,7 +211,7 @@ public class MicroMakeManager : MonoBehaviour
                         // failed = true;
                         sfx.PlaySFX(1);
                         // fubukiAnimator.SetTrigger("fail");
-                        NextOreo(); // 下一個Oreo
+                        yield return NextOreo(nextOreoWait); // 下一個Oreo
                         // break;
                     }
                 } else
